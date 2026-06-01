@@ -7,14 +7,43 @@ import (
 	"strings"
 )
 
+type commandsList struct {
+	name        string
+	description string
+	callback    func() error
+}
+
+func getCommandsList() map[string]commandsList {
+	commands := map[string]commandsList{
+		"exit": {
+			name:        "exit",
+			description: "Exit the Pokedex",
+			callback:    commandExit,
+		},
+	}
+	return commands
+}
+
+func commandExit() error {
+	fmt.Print("Closing the Pokedex... Goodbye!\n")
+	os.Exit(0)
+	return nil
+}
+
 func startRepl() {
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
-		fmt.Print("Pokedex >")
+		fmt.Print("Pokedex > ")
 		scanner.Scan()
 		input := scanner.Text()
 		cleanedStringMap := cleanInput(input)
-		fmt.Printf("Your command was: %s\n", cleanedStringMap[0])
+		commandInput := cleanedStringMap[0]
+		commands := getCommandsList()
+		command, ok := commands[commandInput]
+		if ok {
+			command.callback()
+		}
+		fmt.Print("Unknown command\n")
 	}
 }
 
