@@ -20,6 +20,11 @@ func getCommandsList() map[string]commandsList {
 			description: "Exit the Pokedex",
 			callback:    commandExit,
 		},
+		"help": {
+			name:        "help",
+			description: "Displays a help message",
+			callback:    commandHelp,
+		},
 	}
 	return commands
 }
@@ -27,6 +32,16 @@ func getCommandsList() map[string]commandsList {
 func commandExit() error {
 	fmt.Print("Closing the Pokedex... Goodbye!\n")
 	os.Exit(0)
+	return nil
+}
+
+func commandHelp() error {
+	fmt.Print("Welcome to the Pokedex!\n")
+	fmt.Print("Usage:\n\n")
+	cmdList := getCommandsList()
+	for _, cmd := range cmdList {
+		fmt.Printf("%s: %s\n", cmd.name, cmd.description)
+	}
 	return nil
 }
 
@@ -42,8 +57,10 @@ func startRepl() {
 		command, ok := commands[commandInput]
 		if ok {
 			command.callback()
+		} else {
+			fmt.Print("Unknown command\n")
 		}
-		fmt.Print("Unknown command\n")
+
 	}
 }
 
