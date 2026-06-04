@@ -1,5 +1,10 @@
 package main
 
+import (
+	"github.com/tileOtter/pokedex/internal/pokeapi"
+)
+
 func main() {
-	startRepl()
+	cfg := pokeapi.Config{}
+	startRepl(&cfg)
 }
