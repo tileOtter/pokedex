@@ -12,8 +12,8 @@ import (
 
 func cleanInput(text string) []string {
 	lowered := strings.ToLower(text)
-	split := strings.Fields(lowered)
-	return split
+	fields := strings.Fields(lowered)
+	return fields
 }
 
 func startRepl(cfg *pokeapi.Config) {
